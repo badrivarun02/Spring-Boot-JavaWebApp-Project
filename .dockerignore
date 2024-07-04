@@ -1,0 +1,11 @@
+# Exclude Jenkinsfile  
+JenkinsFile
+
+# Exclude documentation file
+README.md
+
+# Exclude project configuration file
+pom.xml  
+
+# Exclude entire source directory (recommended)
+src
