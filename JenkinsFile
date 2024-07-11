@@ -88,36 +88,35 @@ pipeline {
         stage('Update YAML and Push to Git') {
          steps {
           script {
-            def filePath = 'Manifests'
+            def filePath = 'Manifests/deployment.yml'
             def JOB = env.JOB_NAME.toLowerCase()
-           
-              
-            sh "cd ${filePath}"  // Corrected the path variable
-            
-
+        
             // Update the Docker image tag in your YAML file
             def newImageTag = "${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER}"
-            def yamlFile = readFile "${filePath}/deployment.yml"
+            def yamlFile = readFile "${filePath}"
+
             echo "Before update:\n${yamlFile}"
 
             // Define the old image tag pattern
             def oldImageTagPattern
-            if (yamlFile =~ "${DOCKER_USERNAME}/${JOB}:v\\d+") {
-                oldImageTagPattern = "${DOCKER_USERNAME}/${JOB}:v\\d+"
-            } else if (yamlFile =~ "${DOCKER_USERNAME}/${JOB}:latest") {
-                oldImageTagPattern = "${DOCKER_USERNAME}/${JOB}:latest"
-            } else {
-                oldImageTagPattern = "${DOCKER_USERNAME}/${JOB}"
+          
+            if (yamlFile =~ "${DOCKER_USERNAME}/(\\w+):latest"){
+              oldImageTagPattern = "${DOCKER_USERNAME}/(\\w+):latest"
+            } else if (yamlFile =~ "${DOCKER_USERNAME}/(\\w+):v\\d+"){
+              oldImageTagPattern = "${DOCKER_USERNAME}/(\\w+):v\\d+"
+            } else{
+              oldImageTagPattern = "${DOCKER_USERNAME}/${JOB}"
             }
 
             def updatedYamlFile = yamlFile.replaceAll(oldImageTagPattern, newImageTag)
-            writeFile file: "${filePath}/deployment.yml", text: updatedYamlFile
-            echo "After update:\n${readFile "${filePath}/deployment.yml"}"
-            sh "cat ${filePath}/deployment.yml" 
+            writeFile file: "${filePath}", text: updatedYamlFile
+            echo "After update:\n${readFile "${filePath}"}"
+            sh "cat ${filePath}"
             
             withCredentials([gitUsernamePassword(credentialsId: 'githubcred', gitToolName: 'Default')]) {
             sh """
-                git add "${filePath}/deployment.yml"
+                git add "${filePath}"
+               
                 git commit -m "Update Docker image tag"
                 git push origin main
               """
