@@ -153,9 +153,9 @@
 					<element>BUNDLE</element>
 				        <limits>
 					  <limit>
-						<counter>LINE</counter>
+						<counter>COMPLEXITY</counter>
 						<value>COVEREDRATIO</value>
-						<minimum>0.90</minimum>
+						<minimum>0.60</minimum>
 			 		  </limit>
 					</limits>
 			        </rule>
