@@ -38,9 +38,9 @@ pipeline {
            script {
                 def JOB = env.JOB_NAME.toLowerCase() // Convert Jenkins job name to lowercase
                 withCredentials([usernamePassword(credentialsId: 'dockerpwd', passwordVariable: 'dockerp', usernameVariable: 'dockeruser')]) {
-                        // Login into Docker account
-                        // We can also use like this- sh "docker login -u ${dockeruser} -p ${dockerp}" for linux
+                        
                         sh """
+                             #Login into Docker account
                              docker login -u ${dockeruser} -p ${dockerp}
     
                              # Build the Docker image
@@ -54,52 +54,41 @@ pipeline {
           }
         }
         }
+        stage('Trivy Image Scan') {
+            // Scan Docker images for vulnerabilities 
+            steps{
+                script { 
+                  def JOB = env.JOB_NAME.toLowerCase() // Convert Jenkins Job name to lower-case
+                  // Scan the Docker image using Trivy
+                  sh "trivy image  ${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER} > scan.txt"
+                }
+            }
+        }
         stage('Docker Image Push') {
             // Login to Dockerhub & Push the image to Dockerhub
             steps{
                 script { 
                     def JOB = env.JOB_NAME.toLowerCase() // Convert Jenkins job name to lowercase
                 
-                // Method:1 
-                    // withDockerRegistry(credentialsId: 'dockerpwd') {
-                    //     bat "docker push ${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER}" 
-                    // }
-                    // Method:2
-                    // Convert Jenkins job name to lowercase
-                    
-                        // Push the Docker image to Dockerhub
-
-                        sh """docker push ${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER}
-                              docker push ${DOCKER_USERNAME}/${JOB}:latest
+                    sh """docker push ${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER}
+                          docker push ${DOCKER_USERNAME}/${JOB}:latest
                         """
                       
                   }
                 }
             }
-        stage('Docker Image Cleanup') {
-            // Remove the unwanted (dangling) images created in Jenkins Server to free-up space
-            steps{
-                script { 
-                    // This command removes all unused images not just dangling ones
-                  sh "docker image prune -af"
-                }
-            }
-        }
         stage('Update YAML and Push to Git') {
          steps {
           script {
             def filePath = 'Manifests/deployment.yml'
             def JOB = env.JOB_NAME.toLowerCase()
-        
-            // Update the Docker image tag in your YAML file
+                    
             def newImageTag = "${DOCKER_USERNAME}/${JOB}:v${BUILD_NUMBER}"
             def yamlFile = readFile "${filePath}"
-
             echo "Before update:\n${yamlFile}"
 
             // Define the old image tag pattern
             def oldImageTagPattern
-          
             if (yamlFile =~ "${DOCKER_USERNAME}/(\\w+):latest"){
               oldImageTagPattern = "${DOCKER_USERNAME}/(\\w+):latest"
             } else if (yamlFile =~ "${DOCKER_USERNAME}/(\\w+):v\\d+"){
@@ -108,15 +97,14 @@ pipeline {
               oldImageTagPattern = "${DOCKER_USERNAME}/${JOB}"
             }
 
+            // Update the Docker image tag in your YAML file
             def updatedYamlFile = yamlFile.replaceAll(oldImageTagPattern, newImageTag)
             writeFile file: "${filePath}", text: updatedYamlFile
             echo "After update:\n${readFile "${filePath}"}"
-            sh "cat ${filePath}"
             
             withCredentials([gitUsernamePassword(credentialsId: 'githubcred', gitToolName: 'Default')]) {
-            sh """
+             sh """
                 git add "${filePath}"
-               
                 git commit -m "Update Docker image tag"
                 git push origin main
               """
