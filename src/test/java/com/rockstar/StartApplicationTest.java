@@ -12,13 +12,13 @@ import org.springframework.ui.Model;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class StartApplicationTest {
+class StartApplicationTest {
 
   @Mock
   private StartApplication startApplication;
 
   @Test
-  public void testIndex_ReturnsCorrectViewName() {
+  void testIndex_ReturnsCorrectViewName() {
     // Mock the behavior of startApplication.index
     when(startApplication.index(null)).thenReturn("index");
 
