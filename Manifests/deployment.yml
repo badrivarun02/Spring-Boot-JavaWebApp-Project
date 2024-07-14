@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: spring-boot-app
-        image: badrivarun/springwebt:v6
+        image: badrivarun/springbt:v4
         ports:
         - containerPort: 8080
