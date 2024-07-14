@@ -26,6 +26,13 @@ pipeline {
                 """    
             }
         }
+        stage('SonarQube analysis'){
+          steps{
+                                                                             withSonarQubeEnv('sonarqb'){
+          sh 'mvn sonar:sonar'
+        }
+      }
+    }
         stage('archive and test result'){
           steps{
             // Archives the artifacts (in this case, .jar files)
