@@ -26,6 +26,14 @@ pipeline {
                 """    
             }
         }
+        stage('Owasp') {
+            steps {
+                 
+                 dependencyCheck additionalArguments: '--scan target/*.jar', odcInstallation: 'Dp-check'
+                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                 
+            }
+        }
         stage('SonarQube analysis'){
           steps{
              withSonarQubeEnv('sonarsc'){
