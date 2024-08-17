@@ -129,4 +129,32 @@ pipeline {
        }                               
        
     }
+    post {
+    always {
+        script{
+                  // Format the build timestamp
+                env.BUILD_TIMESTAMP = new Date(currentBuild.startTimeInMillis).format('MMMM dd, yyy | hh:mm:ss aaa | z')
+            }
+            // Send an email with the build report
+        emailext (
+            subject: "${currentBuild.currentResult} Build Report as of ${BUILD_TIMESTAMP} — ${env.JOB_NAME}",
+            body: """The Build report for ${env.JOB_NAME} executed via Jenkins has finished its latest run.
+
+- Job Name: ${env.JOB_NAME}
+- Job Status: ${currentBuild.currentResult}
+- Job Number: ${env.BUILD_NUMBER}
+- Job URL: ${env.BUILD_URL}
+
+Please refer to the build information above for additional details.
+
+This email is generated automatically by the system.
+
+Thanks""",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+            to: 'badrivarun09@gmail.com',
+            attachLog: true
+        )
+    }
+}
+}
 }
