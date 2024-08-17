@@ -1,0 +1,23 @@
+---
+# tasks file for configfiles
+    - name: Copy alertmanager_alertrule_prometheus configuration file
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        remote_src: yes
+      loop:
+       - src: "{{ source_file }}/alert_rules.yml"
+         dest: "/etc/prometheus/"
+       - src: "{{ source_file }}/prometheus.yml"
+         dest: "/etc/prometheus/prometheus.yml"
+       - src: "{{ source_file }}/alertmanager.yml"
+         dest: "/etc/alertmanager/alertmanager.yml"
+
+    - name: Restart Prometheus and Alertmanager
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+       - prometheus
+       - alertmanager
+                                 

@@ -1,0 +1,18 @@
+cat <<EOF | sudo tee /etc/systemd/system/alertmanager.service
+[Unit]
+Description=AlertManager
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=alertmanager
+Group=alertmanager
+Type=simple
+ExecStart=/usr/bin/alertmanager \
+    --config.file /etc/alertmanager/alertmanager.yml \
+    --storage.path /var/lib/alertmanager/
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo chmod 664 /usr/lib/systemd/system/alertmanager.service

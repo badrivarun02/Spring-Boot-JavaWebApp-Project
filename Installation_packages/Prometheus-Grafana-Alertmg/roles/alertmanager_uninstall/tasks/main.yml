@@ -1,0 +1,60 @@
+---
+# tasks file for nodeExp-uninstall
+    - name: Include variables from file
+      include_vars:
+         file: ./roles/alertmanager_install/vars/main.yml
+# Stop and disable the service (if running)
+    - name: Stop Alertmanager service (if running)
+      service:
+        name: alertmanager
+        state: stopped
+
+    - name: Disable Alertmanager service
+      service:
+        name: alertmanager
+        enabled: no
+
+    # Reload systemd daemon
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    # Delete Alertmanager directories and configuration file
+    - name: Delete Alertmanager directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/alertmanager
+        - /var/lib/alertmanager
+
+    # Delete Alertmanager all files
+    - name: Delete Alertmanager files and directories
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ alertmanager_bin_dir }}/alertmanager"
+        - "{{ alertmanager_bin_dir }}/amtool"
+        - "{{ alertmanager_download_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        - "{{ alertmanager_download_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64"
+        - "/etc/systemd/system/{{ alertmanagersvc }}"
+
+    # Remove Alertmanager user and group
+    - name: Remove Alertmanager user and group (direct deletion)
+      block:
+       - name: Remove Alertmanager user
+         user:
+          name: alertmanager
+          state: absent
+
+       - name: Remove Alertmanager group
+         group:
+          name: alertmanager
+          state: absent
+
+    # Check for leftover packages (informational)
+    - name: Check for leftover packages using dpkg (informational)
+      debug:
+        msg: "dpkg query -l alertmanager will show any remaining packages"
+

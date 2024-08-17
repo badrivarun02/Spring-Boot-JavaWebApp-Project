@@ -1,0 +1,10 @@
+---
+- name: Deploy package using role on remote host
+  hosts: Allhost
+  become: true
+  roles:
+    - java_install
+    - maven_install
+    - jenkins_install
+    - Trivy_install
+    - argocd_install

@@ -1,0 +1,10 @@
+---
+- name: Deploy package using role on remote host
+  hosts: Allhost
+  become: true
+  roles:
+    - java_uninstall
+    - maven_uninstall
+    - jenkins_uninstall
+    - Trivy_uninstall
+    - argocd_uninstall

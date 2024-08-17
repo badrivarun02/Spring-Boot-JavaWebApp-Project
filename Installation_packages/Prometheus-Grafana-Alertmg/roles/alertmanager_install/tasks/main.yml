@@ -1,0 +1,70 @@
+---
+# tasks file for alertmanager_install
+
+    - name: Update APT package manager repositories cache
+      apt:
+        update_cache: yes
+
+    - name: Download Alertmanager
+      get_url:
+        url: "{{ alertmanager_download_url }}"
+        dest: "{{ alertmanager_download_dir }}"
+
+    - name: Extract Alertmanager archive
+      unarchive:
+        src: "{{ alertmanager_download_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        dest: "{{ alertmanager_download_dir }}"
+        remote_src: yes
+
+    - name: Create alertmanager user and group
+      block:
+       - name: Add the alertmanager group
+         group:
+          name: alertmanager
+          system: yes
+
+       - name: Add the alertmanager user
+         user:
+          name: alertmanager
+          group: alertmanager
+          shell: /bin/false
+          create_home: no
+    
+    - name: Create alertmanager directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: alertmanager
+        group: alertmanager
+      loop:
+        - /etc/alertmanager/templates
+        - /var/lib/alertmanager
+    
+    - name: Copy alertmanager and amtool binaries and alertmanager configuration file
+      ansible.builtin.copy:
+       src: "{{ item.src }}"
+       dest: "{{ item.dest }}"
+       owner: alertmanager
+       group: alertmanager
+       mode: '0755'
+      loop:
+       - src: "{{ alertmanager_extract_dir }}/alertmanager"
+         dest: "{{ alertmanager_bin_dir }}"
+       - src: "{{ alertmanager_extract_dir }}/amtool"
+         dest: "{{ alertmanager_bin_dir }}"
+       - src: "{{ alertmanager_extract_dir }}/alertmanager.yml"
+         dest: "/etc/alertmanager/alertmanager.yml"
+  
+    - name: Create Alertmanager service
+      template:
+       src: ../alertmanager_install/templates/{{alertmanagersvc}}.j2
+       dest: /etc/systemd/system/{{alertmanagersvc}}
+    
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+    - name: Enable and start Alertmanager service
+      systemd:
+        name: alertmanager
+        enabled: yes
+        state: started

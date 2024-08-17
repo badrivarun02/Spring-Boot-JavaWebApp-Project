@@ -1,0 +1,4 @@
+---
+# vars file for jenkins_install
+#
+jenkins_http_port: 9012

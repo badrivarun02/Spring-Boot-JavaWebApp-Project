@@ -9,3 +9,7 @@ pom.xml
 
 # Exclude entire source directory (recommended)
 src
+Installation_packages
+Manifests
+Metric_k8s
+Project_notes
