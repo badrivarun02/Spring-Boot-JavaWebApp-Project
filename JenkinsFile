@@ -130,7 +130,7 @@ pipeline {
        
     }
     post {
-    always {
+     always {
         script{
                   // Format the build timestamp
                 env.BUILD_TIMESTAMP = new Date(currentBuild.startTimeInMillis).format('MMMM dd, yyy | hh:mm:ss aaa | z')
@@ -157,4 +157,4 @@ Thanks""",
     }
 }
 }
-}
+
