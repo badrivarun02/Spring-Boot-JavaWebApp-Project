@@ -18,12 +18,12 @@ spec:
       - name: blackbox-exporter
         image: prom/blackbox-exporter:latest
         args:
-          - "--config.file=/etc/blackbox-exporter/config.yml"
+          - "--config.file=/etc/blackbox_exporter/config.yml"
         ports:
         - containerPort: 9115
         volumeMounts:
         - name: config-volume
-          mountPath: /etc/blackbox-exporter
+          mountPath: /etc/blackbox_exporter
       volumes:
       - name: config-volume
         configMap:
