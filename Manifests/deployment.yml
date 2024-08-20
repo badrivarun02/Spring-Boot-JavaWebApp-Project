@@ -17,6 +17,5 @@ spec:
       containers:
       - name: spring-boot-app
         image: badrivarun/springbootwp:v3
-        command: ["/bin/sh", "-c", "while true; do curl blackbox-exporter.monitoring.svc.cluster.local:9115; sleep 5; done"]
         ports:
         - containerPort: 8080
