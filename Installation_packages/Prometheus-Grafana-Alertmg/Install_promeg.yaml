@@ -3,8 +3,6 @@
   hosts: Allhost
   become: true
   roles:
-     - prometheus_install
-     - grafana_install
-     - alertmanager_install
-      
-      
+      - prometheus_install
+      - grafana_install
+      - alertmanager_install

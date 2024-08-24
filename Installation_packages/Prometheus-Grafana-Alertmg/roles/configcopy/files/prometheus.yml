@@ -20,10 +20,6 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-  - job_name: "jenkins"
-    metrics_path: /prometheus
-    static_configs:
-    - targets: ['localhost:9012']
 
   - job_name: "node_exporter"
     scrape_interval: 10s
@@ -44,9 +40,6 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"]
       
-  - job_name: 'blackbox_exporter'  # collect blackbox exporter's operational metrics.
-    static_configs:
-      - targets: ['localhost:30500']
 
   - job_name: 'blackbox'
     metrics_path: /probe
@@ -54,14 +47,16 @@ scrape_configs:
       module: [http_2xx]  # Look for a HTTP 200 response.
     static_configs:
       - targets:
-        - https://prometheus.io/
-        - https://youtube.com # Target to probe with http on port 8080.
+        - http://<IP_ADDRESS>:8012 # Add the IP_ADDRESS
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: localhost:30500  # The blackbox exporter's real hostname:port.
+        replacement: localhost:9115  # The blackbox exporter's real hostname:port.
+  - job_name: 'blackbox_exporter'  # collect blackbox exporter's operational metrics.
+    static_configs:
+      - targets: ['localhost:9115']
 
 
