@@ -9,12 +9,12 @@ route:
 receivers:
   - name: email-notifications
     email_configs:
-      - to: badrivarun09@gmail.com #for example:- to: username@gmail.com
+      - to: <username@gmail.com> #replace your gmail-id <username@gmail.com>
         from: test@example.com
         smarthost: smtp.gmail.com:587
-        auth_username: badrivarun09@gmail.com #for example:- to: username@gmail.com
-        auth_identity: badrivarun09@gmail.com #for example:- to: username@gmail.com
-        auth_password: pxai ttwf nzcl lgxe # for example: xuwy plmh xdqv kirr
+        auth_username: <username@gmail.com> #replace your gmail-id <username@gmail.com>
+        auth_identity: <username@gmail.com> #replace your gmail-id <username@gmail.com>
+        auth_password: <gmail_APP_password> #for example: xuwy plmh xdqv kirr
         send_resolved: true
 inhibit_rules:
   - source_match:
