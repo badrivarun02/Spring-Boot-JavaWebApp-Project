@@ -59,7 +59,6 @@ By following this end-to-end workflow, we achieve efficient development, thoroug
   <img alt="DevSecOps-CICD_SpringBootWebApplication" src="Project_notes/DevSecOps-CICD_SpringBootWebApplication.svg" ><br>
   <sup> DevSecOps-CICD_SpringBootWebApplication <sup>
   </div>
----
 
 ## ***Prerequisites 📋***
 - ***Communication***: Gmail account for notifications (Slack integration optional).
