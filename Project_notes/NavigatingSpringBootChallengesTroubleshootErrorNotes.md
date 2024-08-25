@@ -80,6 +80,13 @@ Create two separate files:
 
    - After copying the website content and adding the Java code, execute your Spring Boot project. Verify that the static website files are being utilized as expected.
 
+Reference notes:
+  1. [Notes-1](Challege_1_spring_boot_static_rough_notes1.txt)
+  2. [Notes-2](Challege_1_spring_boot_static_rough_notes2.txt)
+  3. [Notes-3](Challege_1_spring_boot_static_rough_note3.txt)
+  4. [Notes-4](Challege_1_spring_boot_static_rough_notes4.txt)
+
+
 ## Error's: 
 
  **Initial Path Configuration:**
@@ -256,8 +263,8 @@ YAML files won't work correctly if the `cd` (change directory) command is used.
 **Result:**
 After making these changes, I re-ran the pipeline, and it executed successfully.
 
-**Context:** Using the `sh` Command
-I utilized the `sh` command to change directories and read/write YAML files.
+**Context:** 
+Using the `sh` Command, I utilized to change directories and read/write YAML files.
 
 **Action Taken:**
 Adjusted the `filepath` variable value from `Manifests/deployment.yml`.
@@ -461,9 +468,7 @@ Finally Modified script:
 
 ### Error Message
 
-
 failed to start container 'node-exporter': Error response from daemon: path /host-root is mounted on / but it is not a shared or slave mount
-
 
 ### Cause
 
