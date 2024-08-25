@@ -162,7 +162,7 @@ By following this end-to-end workflow, we achieve efficient development, thoroug
 
    - Follow the detailed integration instructions provided in the [Comprehensive Guide to Integrating and Configuring Tools][integration-notes-link].
 
-[integration-notes-link]: Project_notes/ComprehensiveGuidetoIntegratingandConfiguringTools(2).md
+[integration-notes-link]: Project_notes/ComprehensiveGuidetoIntegratingandConfiguringTools.md
 
 6. **Metrics Deployment on Kubernetes:**
  
@@ -349,6 +349,6 @@ Finally, verify that the rules and targets are correctly added/configured in the
 ---
 ## **Acknowledgments: 🔗**
 
-Huge thanks to the DevOps community. I’d like to express my gratitude to Aditya Jaiswal and Abhishek Veeramalla for their insightful content and contributions. Their videos and tutorials have been invaluable in my learning journey. I’m also thankful for the supportive teams at Copilot AI and Gemini AI. Your contributions have been invaluable!🙌😊
+Huge thanks to the **DevOps community**. I’d like to express my gratitude to **Aditya Jaiswal** and **Abhishek Veeramalla** for their insightful content and contributions. Their videos and tutorials have been invaluable in my learning journey. I’m also thankful for the supportive teams at **Copilot AI** and **Gemini AI**. Your contributions have been invaluable!🙌😊
 
       
