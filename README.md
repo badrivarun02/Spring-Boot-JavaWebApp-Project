@@ -55,6 +55,10 @@ A comprehensive DevSecOps Continuous Integration/Continuous Deployment (CI/CD) p
 
 By following this end-to-end workflow, we achieve efficient development, thorough testing, robust security measures, and reliable deployment of the Spring Boot Web Application. 🌟😊
 
+  <div align="center">
+  <img alt="DevSecOps-CICD_SpringBootWebApplication" src="Project_notes/DevSecOps-CICD_SpringBootWebApplication.svg" ><br>
+  <sup> DevSecOps-CICD_SpringBootWebApplication <sup>
+  </div>
 ---
 
 ## ***Prerequisites 📋***
@@ -158,7 +162,7 @@ By following this end-to-end workflow, we achieve efficient development, thoroug
 
    - Follow the detailed integration instructions provided in the [Comprehensive Guide to Integrating and Configuring Tools][integration-notes-link].
 
-[integration-notes-link]: ./Project_notes/ComprehensiveGuidetoIntegratingandConfiguringToolsinJenkins.md
+[integration-notes-link]: Project_notes/ComprehensiveGuidetoIntegratingandConfiguringTools(2).md
 
 6. **Metrics Deployment on Kubernetes:**
  
